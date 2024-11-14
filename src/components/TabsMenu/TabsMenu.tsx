@@ -25,17 +25,12 @@ const TabsMenu: React.FC = () => {
     // new index
     const newOldIndex = getNewOldIndex(position, tabId);
     
-    console.log(newOldIndex.newIndex, newOldIndex.oldIndex);
-
-    // Копируем текущий массив вкладок
     const newTabs = [...tabs];
 
-    // Меняем местами элементы в массиве
     const temp = newTabs[newOldIndex.oldIndex];
     newTabs[newOldIndex.oldIndex] = newTabs[newOldIndex.newIndex];
     newTabs[newOldIndex.newIndex] = temp;
 
-    // Обновляем состояние с новым порядком вкладок
     setTabs(newTabs);
   };
 
@@ -76,10 +71,21 @@ const TabsMenu: React.FC = () => {
 
     return { oldIndex: oldIndex, newIndex: newIndex - 1};
   };
+
   const handleClick = (tabId: string) => {
     const updatedTabs = tabs.map(tab => ({
       ...tab,
       isActive: tab.tabId === tabId ? true : false 
+    }));
+
+    setTabs(updatedTabs);
+  }
+
+  const handleToPinned = (tabId: string) => {
+    console.log("Handle");
+    const updatedTabs = tabs.map(tab => ({
+      ...tab,
+      isPinned: tab.tabId === tabId ? true : tab.isPinned 
     }));
 
     setTabs(updatedTabs);
@@ -104,6 +110,7 @@ const TabsMenu: React.FC = () => {
           {...tab}
           onMouseUp={(position, tabId) => handleMouseUp(position, tabId)}
           click={handleClick}
+          toPinned={handleToPinned}
           ></TabDefault>
         )
       }

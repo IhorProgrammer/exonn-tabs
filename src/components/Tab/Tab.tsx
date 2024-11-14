@@ -10,11 +10,13 @@ export interface TabProps {
   isActive?: boolean;
   onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
   click?: (tabId: string) => void;
+  toPinned?: (tabId: string) => void;
 }
 
 const Tab: React.FC<TabProps> = (props) => {
   const [isDragging, setIsDragging] = useState(false); 
   const [position, setPosition] = useState({ x: 0, y: 0 }); 
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -65,16 +67,48 @@ const Tab: React.FC<TabProps> = (props) => {
       props.click(props.tabId);
   }
 
+  const hanleMouseEnter = () => {
+    setIsHovered(true)
+  }
+  const hanleMouseLeave = () => {
+    setIsHovered(false)
+  }
+  const hanleToPinned = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault(); 
+    if(props.toPinned) 
+      props.toPinned(props.tabId);
+
+  }
 
   return (
     <div
       id={props.tabId} 
       className={`${styles.Tab} ${props.className} ${isDragging && styles.drag} ${props.isActive && styles.active}`}
-      onMouseDown={handleMouseDown}
-      onClick={handleClick}
+      onMouseEnter={hanleMouseEnter}
+      onMouseLeave={hanleMouseLeave}
     >
-      <img src={`/icons/tab/${props.icon}`} alt={props.name} className={styles.Icon} />
-      {!props.isPinned && <p className={styles.Name}>{props.name}</p>}
+      <div className={styles.container}
+         onMouseDown={handleMouseDown}
+         onClick={handleClick}
+      >
+        <img src={`/icons/tab/${props.icon}`} alt={props.name} className={styles.Icon} />
+        {!props.isPinned && <p className={styles.Name}>{props.name}</p>}
+      </div>
+      {
+        isHovered && !isDragging && (
+          props.isPinned 
+          ?
+          <div className={styles.Tooltip} onClick={hanleToPinned}>
+            <img src={`/icons/tab/${props.icon}`} alt={props.name} />
+            <span>{props.name}</span>
+          </div>
+          :
+          <div className={styles.Tooltip} onClick={hanleToPinned}>
+            <img src="/icons/tab/fi-rs-thumbtack.svg" alt="" />
+            <span>Tab anpinnen</span>
+          </div>
+      )}
     </div>
   );
 };

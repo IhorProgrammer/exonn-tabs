@@ -10,7 +10,7 @@ interface TabDefaultProps {
   isActive?: boolean;
   onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
   click?: (tabId: string) => void;
-
+  toPinned?: (tabId: string) => void;
 }
 
 const TabDefault: React.FC<TabDefaultProps> = ( props ) => {

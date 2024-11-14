@@ -1,41 +1,67 @@
 .Tab {
     height: 48px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    color: #7F858D;
-    font-weight: 500;
-    box-sizing: border-box;
+    position: relative;    
 
+    .container{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        color: #7F858D;
+        font-weight: 500;
+        box-sizing: border-box;
     
-
-    &.active {
-        background-color: #F1F5F8;
-        border-top: 2px solid #4690E2;
-        color: #343434;
-    }
-
-    &:not(.Name) {
+        &.active {
+            background-color: #F1F5F8;
+            border-top: 2px solid #4690E2;
+            color: #343434;
+        }
+    
+        &:not(.Name) {
+            .Icon {
+                margin-right: 20px;
+            }
+        }
+    
+        &:hover{
+            background-color: #F4F7F9;
+        }
+        
         .Icon {
-            margin-right: 20px;
+            margin-left: 20px;
+        }
+    
+        .Name{
+            margin-right: 15px;
         }
     }
 
-    &:hover{
-        background-color: #F4F7F9;
-    }
     
-    .Icon {
-        margin-left: 20px;
-    }
+    .Tooltip {
+        position: absolute;
+        cursor: pointer;
+        top: 90%;
+        left: 0;
+        padding: 10px 15px;
+        background-color: #FFFFFF;
+        border: 1px solid #AEB6CE33;
+        border-radius: 6px;
 
-    .Name{
-        margin-right: 15px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        z-index: 8; 
+        
+        span {
+            margin-left: 10px;
+            color: #7F858D;
+        }
     }
 }
 
 .Tab.drag {
     color: white !important;
+    z-index: 999;
     background-color: #7F858D !important;
 }
