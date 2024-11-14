@@ -7,18 +7,18 @@ interface TabDefaultProps {
   tabId: string;
   name: string;
   className?: string;
+  isActive?: boolean;
   onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
+  click?: (tabId: string) => void;
+
 }
 
 const TabDefault: React.FC<TabDefaultProps> = ( props ) => {
   return (
     <Tab 
-    className={`${styles.TabDefault} 
-    ${props.className}`} 
+    {...props}
+    className={`${styles.TabDefault} ${props.className}`} 
     isPinned={false} 
-    name={props.name} 
-    tabId={props.tabId}
-    icon={props.icon}
     onMouseUp={props.onMouseUp}
     ></Tab>
   )

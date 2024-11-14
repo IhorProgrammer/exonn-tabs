@@ -7,7 +7,7 @@ import TabDefault from '../TabDefault/TabDefault';
 const TabsMenu: React.FC = () => {
   const [tabs, setTabs] = useState<TabProps[]>([
     { icon: 'fi-rs-box-alt.svg', tabId: "tab1", name: 'Nav1', isPinned: true },
-    { icon: 'fi-rs-box-alt.svg', tabId: "tab2", name: 'Nav2', isPinned: true },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab2", name: 'Nav2', isPinned: true, isActive: true },
     { icon: 'fi-rs-box-alt.svg', tabId: "tab3", name: 'Nav3', isPinned: false },
     { icon: 'fi-rs-box-alt.svg', tabId: "tab4", name: 'Nav4', isPinned: false },
     { icon: 'fi-rs-box-alt.svg', tabId: "tab5", name: 'Nav5', isPinned: false },
@@ -76,7 +76,14 @@ const TabsMenu: React.FC = () => {
 
     return { oldIndex: oldIndex, newIndex: newIndex - 1};
   };
+  const handleClick = (tabId: string) => {
+    const updatedTabs = tabs.map(tab => ({
+      ...tab,
+      isActive: tab.tabId === tabId ? true : false 
+    }));
 
+    setTabs(updatedTabs);
+  }
 
   return ( <div className={styles.TabsMenu} ref={tabsContainerRef}>
     {
@@ -87,18 +94,16 @@ const TabsMenu: React.FC = () => {
           ?  
           <TabPinned 
           key={key} 
-          name={tab.name} 
-          tabId={tab.tabId}
-          icon={tab.icon} 
+          {...tab}
           onMouseUp={(position, tabId) => handleMouseUp(position, tabId)}
+          click={handleClick}
           ></TabPinned>
           :
           <TabDefault 
           key={key} 
-          name={tab.name} 
-          tabId={tab.tabId}
-          icon={tab.icon}
+          {...tab}
           onMouseUp={(position, tabId) => handleMouseUp(position, tabId)}
+          click={handleClick}
           ></TabDefault>
         )
       }

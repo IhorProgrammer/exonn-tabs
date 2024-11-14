@@ -7,7 +7,9 @@ export interface TabProps {
   isPinned: boolean;
   className?: string;
   tabId: string;
+  isActive?: boolean;
   onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
+  click?: (tabId: string) => void;
 }
 
 const Tab: React.FC<TabProps> = (props) => {
@@ -58,13 +60,18 @@ const Tab: React.FC<TabProps> = (props) => {
     };
   }, [isDragging]);
 
+  const handleClick = () => {
+    if(props.click) 
+      props.click(props.tabId);
+  }
 
 
   return (
     <div
       id={props.tabId} 
-      className={`${styles.Tab} ${props.className} ${isDragging && styles.drag}`}
+      className={`${styles.Tab} ${props.className} ${isDragging && styles.drag} ${props.isActive && styles.active}`}
       onMouseDown={handleMouseDown}
+      onClick={handleClick}
     >
       <img src={`/icons/tab/${props.icon}`} alt={props.name} className={styles.Icon} />
       {!props.isPinned && <p className={styles.Name}>{props.name}</p>}

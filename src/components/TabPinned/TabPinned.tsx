@@ -7,18 +7,17 @@ interface TabPinnedProps {
   name: string;
   tabId: string;
   className?: string;
+  isActive?: boolean;
   onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
+  click?: (tabId: string) => void;
 }
 
 const TabPinned: React.FC<TabPinnedProps> = ( props ) => {
   return (
     <Tab 
-    className={`${styles.TabPinned} 
-    ${props.className}`} 
+    {...props}
+    className={`${styles.TabPinned} ${props.className}`} 
     isPinned={true} 
-    name={props.name} 
-    icon={props.icon}
-    tabId={props.tabId}
     onMouseUp={props.onMouseUp}
     ></Tab>
   )
