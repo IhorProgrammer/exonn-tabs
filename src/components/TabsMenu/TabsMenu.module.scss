@@ -1,0 +1,25 @@
+.TabsMenu {
+    header: 49px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    background-color: white;
+
+    &::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #7F858D66; 
+        border-radius: 40px;  
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent; 
+        border-radius: 0;  
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #555;  
+    }
+}

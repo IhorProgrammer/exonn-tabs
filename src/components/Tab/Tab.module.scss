@@ -1,0 +1,21 @@
+.Tab {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: #7F858D;
+
+    &:hover {
+        background-color: #F1F5F8;
+        border-top: 2px solid #4690E2;
+        color: #343434;
+    }
+    .Icon {
+        margin-left: 20px;
+    }
+
+    .Name{
+        margin-right: 15px;
+    }
+}
