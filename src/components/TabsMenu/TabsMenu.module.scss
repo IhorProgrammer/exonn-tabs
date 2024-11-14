@@ -5,6 +5,10 @@
     position: relative;
     background-color: white;
     user-select: none;
+    border-top: 1px solid #AEB6CE33;
+    border-bottom: 1px solid #AEB6CE33;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     .Tab {
         &::before {

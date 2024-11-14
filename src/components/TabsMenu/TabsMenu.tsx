@@ -6,54 +6,75 @@ import TabDefault from '../TabDefault/TabDefault';
 
 const TabsMenu: React.FC = () => {
   const [tabs, setTabs] = useState<TabProps[]>([
-    { icon: 'fi-rs-box-alt.svg', tabId: "tab1", name: 'Home', isPinned: true },
-    { icon: 'fi-rs-box-alt.svg', tabId: "tab2", name: 'Profile', isPinned: false },
-    { icon: 'fi-rs-box-alt.svg', tabId: "tab3", name: 'Settings', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab1", name: 'Nav1', isPinned: true },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab2", name: 'Nav2', isPinned: true },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab3", name: 'Nav3', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab4", name: 'Nav4', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab5", name: 'Nav5', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab6", name: 'Nav6', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab7", name: 'Nav7', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab8", name: 'Nav8', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab9", name: 'Nav9', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab10", name: 'Nav10', isPinned: false },
+    { icon: 'fi-rs-box-alt.svg', tabId: "tab11", name: 'Nav11', isPinned: false },
   ]);
 
   const tabsContainerRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseUp = (position: {x: number, y: number}, tabId: string) => {
-    // 1. newIndex
-    const targetIndex = getNewIndex(position, tabId);
+    // new index
+    const newOldIndex = getNewOldIndex(position, tabId);
+    
+    console.log(newOldIndex.newIndex, newOldIndex.oldIndex);
 
-    const currentIndex = tabs.findIndex(tab => tab.tabId === tabId);
-    if (currentIndex === -1 || targetIndex === currentIndex) return; 
-
+    // Копируем текущий массив вкладок
     const newTabs = [...tabs];
-    const movedTab = newTabs.splice(currentIndex, 1)[0];  
-    newTabs.splice(targetIndex, 0, movedTab);  
 
+    // Меняем местами элементы в массиве
+    const temp = newTabs[newOldIndex.oldIndex];
+    newTabs[newOldIndex.oldIndex] = newTabs[newOldIndex.newIndex];
+    newTabs[newOldIndex.newIndex] = temp;
+
+    // Обновляем состояние с новым порядком вкладок
     setTabs(newTabs);
   };
 
-  const getNewIndex = (position: { x: number }, tabId: string) => {
+  const getNewOldIndex = (position: { x: number }, tabId: string): {newIndex: number, oldIndex: number} => {
     let startPos = 0;
     if (tabsContainerRef.current) {
       const rect = tabsContainerRef.current.getBoundingClientRect();
       startPos = rect.left; 
     }
-
+    
+    let i = 0;
+    let oldIndex = 0;
+    let newIndex = 0;
+    let newIndexFound = false;
+    let oldIndexFound = false;
     let positionAcumulate = startPos; 
-    let elemPos = 0;
+    
+    for (i = 0; i < tabs.length; i++) {
+      if(oldIndexFound && newIndexFound) break;
 
-    tabs.forEach((tab, index) => {
-      const tabElement = document.getElementById(tab.tabId);
-      const tabWidth = tabElement ? tabElement.offsetWidth : 150; 
-      positionAcumulate += tabWidth; 
+      if(tabs[i].tabId === tabId) {
+        oldIndex = i;
+        oldIndexFound = true;
+      } 
 
-      if (positionAcumulate > position.x) {
-        elemPos = index;
-        return; 
+      if (positionAcumulate > position.x && !newIndexFound) {
+        newIndex = i;
+        newIndexFound = true;
+      }
+      if( i === tabs.length - 1 ) {
+        newIndex = tabs.length;
       }
       
-      if (index === tabs.length - 1) {
-        elemPos = index + 1; 
-      }
-    });
+      const tabElement = document.getElementById(tabs[i].tabId);
+      const tabWidth = tabElement ? tabElement.offsetWidth : 150; 
+      positionAcumulate += tabWidth; 
+    }
 
-    return elemPos;
-
+    return { oldIndex: oldIndex, newIndex: newIndex - 1};
   };
 
 

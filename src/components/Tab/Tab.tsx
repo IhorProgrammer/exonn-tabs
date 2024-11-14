@@ -21,23 +21,22 @@ const Tab: React.FC<TabProps> = (props) => {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
-
-    const deltaX = e.clientX - position.x; 
-    const deltaY = e.clientY - position.y; 
-
-    setPosition({ x: e.clientX, y: e.clientY });
-
+    
     const draggedElement = document.getElementById(props.tabId);
     if (draggedElement) {
-      draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      draggedElement.style.transform = `translate(${e.clientX - position.x}px, ${0}px)`;
     }
+    
+    setPosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseUp = (e: MouseEvent) => {
     setIsDragging(false);
-    if(props.onMouseUp) props.onMouseUp( position, props.tabId )
-
-    const draggedElement = document.getElementById(props.tabId);
+    console.log(e.clientX)
+    
+    if(props.onMouseUp) props.onMouseUp( { x: e.clientX, y: e.clientY }, props.tabId )
+    
+      const draggedElement = document.getElementById(props.tabId);
     if (draggedElement) {
       draggedElement.style.transform = '';
     }
@@ -59,10 +58,12 @@ const Tab: React.FC<TabProps> = (props) => {
     };
   }, [isDragging]);
 
+
+
   return (
     <div
       id={props.tabId} 
-      className={`${styles.Tab} ${props.className}`}
+      className={`${styles.Tab} ${props.className} ${isDragging && styles.drag}`}
       onMouseDown={handleMouseDown}
     >
       <img src={`/icons/tab/${props.icon}`} alt={props.name} className={styles.Icon} />
