@@ -5,6 +5,29 @@
     overflow-x: auto;
     background-color: white;
 
+    .Tab {
+        &::before {
+            content: '';              
+            position: absolute;      
+            left: 0;                  
+            top: calc( (48px - 16px) / 2 );                 
+            width: 1px;               
+            height: 16px;             
+            background-color: #AEB6CE33;  
+        }
+
+        &:hover::before {
+              width: 0;  
+        }
+        
+        
+        &:hover {
+            &::before{
+                width: 0;
+            }
+        }
+    }
+
     &::-webkit-scrollbar {
         height: 4px;
     }

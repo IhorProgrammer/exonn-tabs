@@ -3,14 +3,26 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
+    cursor: grab;
     color: #7F858D;
+    font-weight: 500;
 
-    &:hover {
+    &.active {
         background-color: #F1F5F8;
         border-top: 2px solid #4690E2;
         color: #343434;
     }
+
+    &:not(.Name) {
+        .Icon {
+            margin-right: 20px;
+        }
+    }
+
+    &:hover{
+        background-color: #F4F7F9;
+    }
+    
     .Icon {
         margin-left: 20px;
     }
