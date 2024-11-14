@@ -4,6 +4,6 @@ import Tab from './Tab';
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Tab icon="test-icon.png" name="Test Tab" isPinned={true} />, div);
+  ReactDOM.render(<Tab icon="test-icon.png" name="Test Tab" tabId="tab" isPinned={true} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

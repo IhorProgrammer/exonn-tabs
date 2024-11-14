@@ -4,11 +4,10 @@ import Tab from '../Tab/Tab';
 
 interface TabDefaultProps {
   icon: string;
+  tabId: string;
   name: string;
   className?: string;
-  onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
-  onDragOver?: React.DragEventHandler<HTMLDivElement>;
-  onDrop?: React.DragEventHandler<HTMLDivElement>;
+  onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
 }
 
 const TabDefault: React.FC<TabDefaultProps> = ( props ) => {
@@ -18,10 +17,9 @@ const TabDefault: React.FC<TabDefaultProps> = ( props ) => {
     ${props.className}`} 
     isPinned={false} 
     name={props.name} 
+    tabId={props.tabId}
     icon={props.icon}
-    onMouseDown={props.onMouseDown}
-    onDragOver={props.onDragOver} 
-    onDrop={props.onDrop}
+    onMouseUp={props.onMouseUp}
     ></Tab>
   )
 };

@@ -1,9 +1,10 @@
 .TabsMenu {
-    header: 49px;
+    height: 49px;
     display: flex;
     align-items: center;
-    overflow-x: auto;
+    position: relative;
     background-color: white;
+    user-select: none;
 
     .Tab {
         &::before {

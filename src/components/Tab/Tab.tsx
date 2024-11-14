@@ -6,9 +6,8 @@ export interface TabProps {
   name: string;
   isPinned: boolean;
   className?: string;
-  onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
-  onDragOver?: React.DragEventHandler<HTMLDivElement>;
-  onDrop?: React.DragEventHandler<HTMLDivElement>;
+  tabId: string;
+  onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
 }
 
 const Tab: React.FC<TabProps> = (props) => {
@@ -28,14 +27,20 @@ const Tab: React.FC<TabProps> = (props) => {
 
     setPosition({ x: e.clientX, y: e.clientY });
 
-    const draggedElement = document.getElementById('dragged-tab');
+    const draggedElement = document.getElementById(props.tabId);
     if (draggedElement) {
       draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
     }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: MouseEvent) => {
     setIsDragging(false);
+    if(props.onMouseUp) props.onMouseUp( position, props.tabId )
+
+    const draggedElement = document.getElementById(props.tabId);
+    if (draggedElement) {
+      draggedElement.style.transform = '';
+    }
   };
 
   useEffect(() => {
@@ -50,12 +55,13 @@ const Tab: React.FC<TabProps> = (props) => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+
     };
   }, [isDragging]);
 
   return (
     <div
-      id="dragged-tab" 
+      id={props.tabId} 
       className={`${styles.Tab} ${props.className}`}
       onMouseDown={handleMouseDown}
     >

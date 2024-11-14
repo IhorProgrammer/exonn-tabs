@@ -5,10 +5,9 @@ import Tab from '../Tab/Tab';
 interface TabPinnedProps {
   icon: string;
   name: string;
+  tabId: string;
   className?: string;
-  onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
-  onDragOver?: React.DragEventHandler<HTMLDivElement>;
-  onDrop?: React.DragEventHandler<HTMLDivElement>;
+  onMouseUp?: (position: { x: number, y: number }, tabId: string) => void;
 }
 
 const TabPinned: React.FC<TabPinnedProps> = ( props ) => {
@@ -19,9 +18,8 @@ const TabPinned: React.FC<TabPinnedProps> = ( props ) => {
     isPinned={true} 
     name={props.name} 
     icon={props.icon}
-    onMouseDown={props.onMouseDown}
-    onDragOver={props.onDragOver} 
-    onDrop={props.onDrop}
+    tabId={props.tabId}
+    onMouseUp={props.onMouseUp}
     ></Tab>
   )
 };
